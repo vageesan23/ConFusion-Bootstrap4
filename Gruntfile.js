@@ -1,11 +1,14 @@
 'use strict';
 
 module.exports = function (grunt) {
-
+    // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
+
+    // Automatically load required Grunt tasks
     require('jit-grunt')(grunt, {
         useminPrepare: 'grunt-usemin'
     });
+
     // Define the configuration for all the tasks
     grunt.initConfig({
         sass: {
@@ -16,7 +19,7 @@ module.exports = function (grunt) {
             }
         },
         watch: {
-            files: 'css/*scss',
+            files: 'css/*.scss',
             tasks: ['sass']
         },
         browserSync: {
@@ -31,31 +34,36 @@ module.exports = function (grunt) {
                 options: {
                     watchTask: true,
                     server: {
-                        baseDir: './'
+                        baseDir: "./"
                     }
                 }
             }
         },
         copy: {
             html: {
-                files: [{
-                    expand: true,
-                    dot: true,
-                    cwd: './',
-                    src: ['*.html'],
-                    dest: 'dist'
-                }]
+                files: [
+                    {
+                        //for html
+                        expand: true,
+                        dot: true,
+                        cwd: './',
+                        src: ['*.html'],
+                        dest: 'dist'
+                    }]
             },
             fonts: {
-                files: [{
-                    expand: true,
-                    dot: true,
-                    cwd: 'node_modules/font-awesome',
-                    src: ['fonts/*.*'],
-                    dest: 'dist'
-                }]
+                files: [
+                    {
+                        //for font-awesome
+                        expand: true,
+                        dot: true,
+                        cwd: 'node_modules/font-awesome',
+                        src: ['fonts/*.*'],
+                        dest: 'dist'
+                    }]
             }
         },
+
         clean: {
             build: {
                 src: ['dist/']
@@ -64,14 +72,14 @@ module.exports = function (grunt) {
         imagemin: {
             dynamic: {
                 files: [{
-                    expand: true,
-                    dot: true,
-                    cwd: './',
-                    src: ['img/*.{png,jpg,gif}'],
-                    dest: 'dist/'
+                    expand: true,                  // Enable dynamic expansion
+                    cwd: './',                   // Src matches are relative to this path
+                    src: ['img/*.{png,jpg,gif}'],   // Actual patterns to match
+                    dest: 'dist/'                  // Destination path prefix
                 }]
             }
         },
+
         useminPrepare: {
             foo: {
                 dest: 'dist',
@@ -79,7 +87,7 @@ module.exports = function (grunt) {
             },
             options: {
                 flow: {
-                    step: {
+                    steps: {
                         css: ['cssmin'],
                         js: ['uglify']
                     },
@@ -89,7 +97,7 @@ module.exports = function (grunt) {
                             createConfig: function (context, block) {
                                 var generated = context.options.generated;
                                 generated.options = {
-                                    KeepSpecialComments: 0, rebase: false
+                                    keepSpecialComments: 0, rebase: false
                                 };
                             }
                         }]
@@ -97,6 +105,8 @@ module.exports = function (grunt) {
                 }
             }
         },
+
+        // Concat
         concat: {
             options: {
                 separator: ';'
@@ -160,6 +170,7 @@ module.exports = function (grunt) {
             }
         }
     });
+
     grunt.registerTask('css', ['sass']);
     grunt.registerTask('default', ['browserSync', 'watch']);
     grunt.registerTask('build', [
