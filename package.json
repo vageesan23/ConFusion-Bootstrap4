@@ -19,6 +19,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "browser-sync": "^2.23.6",
     "cssmin": "^0.4.3",
     "grunt": "^1.0.2",
     "grunt-browser-sync": "^2.2.0",
